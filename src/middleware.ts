@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 const allowedOrigins =
   process.env.NODE_ENV === 'production'
     ? ['https://www.yoursite.com', 'https://yoursite.com']
-    : ['http://localhost:3000', 'https://www.google.com'];
+    : ['http://localhost:3000'];
 
 export function middleware(request: Request) {
   //optionally apply middleware file to specific paths with regex
