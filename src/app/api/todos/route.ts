@@ -8,7 +8,10 @@ const API_KEY: string = process.env.DATA_API_KEY as string;
 
 //route handlers
 //dont send api key with get request
-export async function GET() {
+// cors - check allowed origin list inside of middleware file, and inside the routes themselves you need to send access-control-allow-origin header
+export async function GET(request: Request) {
+  const origin = request.headers.get('origin');
+
   const res = await fetch(DATA_SOURCE_URL);
   console.log('res: ', res);
 
@@ -16,7 +19,13 @@ export async function GET() {
 
   //   const { userId, id, title, completed } = res;
 
-  return NextResponse.json(todos);
+  //apply appropriate header for fetch from google
+  return new NextResponse(JSON.stringify(todos), {
+    headers: {
+      'Access-Control-Allow-Origin': origin || '*',
+      'Content-Type': 'application/json',
+    },
+  });
 }
 
 export async function DELETE(request: Request) {
